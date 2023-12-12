@@ -1,0 +1,100 @@
+USE_LR_PARSER
+
+prog
+
+(* ======================================================================================================= *)
+
+<prog>  ::= <stmtList>.
+ 
+<stmtList> ::= <stmt> ";" <stmtList>
+             | <epsilon>
+.
+<type>  ::= "bool" | "int"
+.
+<literal> ::= boolean | integer
+.
+<stmt>    ::= <definition>
+            | <condBlock>
+            | <block>
+            | <incid>
+            | <printCall>
+.
+<printCall>  ::= "print" "(" <expression> ")"
+               | "print" "(" ")"
+.
+<condBlock>  ::= <ifThen>
+               | <ifThenElse>
+               | <forLoop>
+               | <whileLoop>
+.
+<ifThen>     ::= "if" "(" <expression> ")" "then" <block>
+.
+<ifThenElse> ::= "if" "(" <expression> ")" "then" <block> "else" <block>
+.
+<forLoop>    ::= "for" "(" <definition> ";" <expression> ";" <assignment> ")" "do" <block>
+               | "for" "(" <definition> ";" <expression> ";" <incid> ")" "do" <block>
+.
+<whileLoop>  ::= "while" "(" <expression> ")" "do" <block>
+.
+<block>      ::= "begin" <stmtList> "end"
+.
+<definition> ::= <declaration>
+               | <assignment>
+.
+<declaration> ::= <type> id
+                | <type> id "=" <expression>
+. 
+<assignment> ::= id "=" <expression>
+.
+<expression>   ::= <orExp>
+.
+<orExp>        ::= <orExp> "or" <andExp>
+                 | <andExp>
+.
+<andExp>       ::= <andExp> "and" <equalsExp> 
+                 | <equalsExp>
+.
+<equalsExp>    ::= <equalsExp> "eq" <blankThanExp>
+                 | <equalsExp> "ne" <blankThanExp>
+                 | <blankThanExp>
+.
+<blankThanExp> ::= <blankThanExp> "gt"  <notExp>
+                 | <blankThanExp> "ge" <notExp>
+                 | <blankThanExp> "lt"  <notExp>
+                 | <blankThanExp> "le" <notExp>
+                 | <addExp>
+.
+<addExp>       ::= <addExp> "+" <prodExp>
+                 | <addExp> "-" <prodExp>
+                 | <prodExp>
+.
+<prodExp>      ::= <prodExp> "*"   <powExp>
+                 | <prodExp> "div" <powExp>
+                 | <prodExp> "mod" <powExp>
+                 | <powExp>
+.
+<powExp>       ::= <notExp> "^" <powExp>
+                 | <notExp>
+.
+<notExp>       ::= "not" <notExp>
+                 | <uminExp>
+.
+<uminExp>      ::= "neg" <uminExp>
+                 | <absExp>.
+
+<absExp>       ::= "abs" <absExp>
+                 | <finExp>.
+
+<finExp>       ::=
+                 | "(" <orExp> ")"
+                 | <incid>
+                 | id
+                 | <literal>
+.
+<incid>          ::= "++" id
+                   | "--" id
+                   | id "++"
+                   | id "--"
+.
+<epsilon> ::= 
+.
